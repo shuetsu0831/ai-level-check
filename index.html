@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>AI活用レベル診断｜あなたのAI活用力をランク査定</title>
+<meta name="description" content="全10問・約2分。あなたのAI活用力をE〜SSSの8段階でランク査定。結果に合わせた「次のレベルに行くためのプロンプト」を無料配布中。">
+<meta property="og:title" content="AI活用レベル診断｜あなたのAI活用力は何級？">
+<meta property="og:description" content="全10問・約2分でAI活用力をE〜SSSでランク査定。あなた専用の「次のレベルに行くプロンプト」がもらえる。">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎖️</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#06080f;
+  --panel:#0d1220;
+  --panel2:#111830;
+  --line:rgba(240,177,62,.22);
+  --gold:#f0b13e;
+  --gold-bright:#ffd75e;
+  --paper:#ece5d3;
+  --dim:#8b94a8;
+  --red:#e5484d;
+  --cyan:#5ad7d0;
+  --disp:'DotGothic16',monospace;
+  --body:'Zen Kaku Gothic New',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{
+  background:var(--ink);
+  color:var(--paper);
+  font-family:var(--body);
+  min-height:100dvh;
+  overflow-x:hidden;
+  line-height:1.7;
+}
+/* ---- 背景演出 ---- */
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%,rgba(240,177,62,.10),transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 110%,rgba(90,215,208,.06),transparent 60%);
+}
+body::after{
+  content:'';position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.5;
+  background:repeating-linear-gradient(0deg,transparent 0 2px,rgba(0,0,0,.22) 2px 4px);
+}
+.grid-bg{
+  position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.35;
+  background-image:
+    linear-gradient(rgba(240,177,62,.05) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(240,177,62,.05) 1px,transparent 1px);
+  background-size:44px 44px;
+  mask-image:radial-gradient(ellipse 90% 70% at 50% 30%,#000 30%,transparent 80%);
+  -webkit-mask-image:radial-gradient(ellipse 90% 70% at 50% 30%,#000 30%,transparent 80%);
+}
+.wrap{position:relative;z-index:2;max-width:560px;margin:0 auto;padding:0 20px 60px}
+.screen{display:none}
+.screen.active{display:block;animation:screenIn .45s cubic-bezier(.22,1,.36,1) both}
+@keyframes screenIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+
+/* ================= タイトル画面 ================= */
+.title-screen{padding-top:clamp(40px,10vh,90px);text-align:center}
+.sys-label{
+  font-family:var(--disp);font-size:11px;letter-spacing:.42em;color:var(--gold);
+  opacity:.85;margin-bottom:18px;animation:blink 2.4s steps(2) infinite;
+}
+@keyframes blink{50%{opacity:.35}}
+.main-title{
+  font-family:var(--disp);
+  font-size:clamp(38px,10vw,58px);
+  line-height:1.25;letter-spacing:.04em;
+  text-shadow:0 0 30px rgba(240,177,62,.35);
+  margin-bottom:6px;
+}
+.main-title .ai{color:var(--gold)}
+.sub-title{font-size:13px;color:var(--dim);letter-spacing:.28em;margin-bottom:34px}
+.rank-ladder{
+  display:flex;justify-content:center;align-items:flex-end;gap:6px;
+  margin:0 auto 10px;max-width:420px;position:relative;padding-top:22px;
+}
+.you-cursor{
+  position:absolute;top:0;left:0;width:12.5%;text-align:center;
+  font-family:var(--disp);font-size:11px;color:var(--cyan);
+  text-shadow:0 0 8px rgba(90,215,208,.8);
+  animation:hop 4.8s steps(1) infinite;pointer-events:none;
+}
+@keyframes hop{
+  0%{left:0%}12.5%{left:12.5%}25%{left:25%}37.5%{left:37.5%}
+  50%{left:50%}62.5%{left:62.5%}75%{left:75%}87.5%{left:87.5%}
+}
+.provoke{
+  font-size:12px;color:#ff8a8e;letter-spacing:.06em;margin:0 auto 26px;
+  max-width:420px;text-align:center;
+}
+.provoke::before{content:'⚠ ';opacity:.9}
+.rank-ladder .r{
+  font-family:var(--disp);font-size:15px;flex:1;
+  padding:9px 0 7px;border:1px solid var(--line);border-radius:6px;
+  background:linear-gradient(180deg,rgba(240,177,62,.04),transparent);
+  color:var(--dim);position:relative;
+  animation:ladderIn .5s cubic-bezier(.22,1,.36,1) both;
+}
+.rank-ladder .r:nth-child(1){animation-delay:.05s}
+.rank-ladder .r:nth-child(2){animation-delay:.1s}
+.rank-ladder .r:nth-child(3){animation-delay:.15s}
+.rank-ladder .r:nth-child(4){animation-delay:.2s}
+.rank-ladder .r:nth-child(5){animation-delay:.25s}
+.rank-ladder .r:nth-child(6){animation-delay:.3s}
+.rank-ladder .r:nth-child(7){animation-delay:.35s}
+.rank-ladder .r:nth-child(8){animation-delay:.4s}
+@keyframes ladderIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.rank-ladder .r.top{
+  color:#fff;border-color:rgba(255,215,94,.6);
+  background:linear-gradient(135deg,#f0b13e33,#5ad7d033,#f0b13e33);
+  background-size:200% 200%;animation:ladderIn .5s .4s both,shimmer 2.6s linear infinite;
+  text-shadow:0 0 12px rgba(255,215,94,.8);
+}
+@keyframes shimmer{0%{background-position:0% 50%}100%{background-position:200% 50%}}
+.spec-chips{display:flex;justify-content:center;gap:10px;margin-bottom:30px;flex-wrap:wrap}
+.chip{
+  font-size:12px;letter-spacing:.12em;color:var(--gold);
+  border:1px solid var(--line);border-radius:999px;padding:5px 14px;
+  background:rgba(240,177,62,.05);
+}
+.lead{font-size:14px;color:#b9c0cf;max-width:400px;margin:0 auto 38px;text-align:center}
+.lead strong{color:var(--gold-bright);font-weight:700}
+.btn-start{
+  font-family:var(--disp);font-size:20px;letter-spacing:.2em;
+  color:var(--ink);background:linear-gradient(180deg,var(--gold-bright),var(--gold));
+  border:none;border-radius:12px;padding:19px 60px;cursor:pointer;
+  box-shadow:0 0 0 1px rgba(255,215,94,.5),0 8px 30px rgba(240,177,62,.35),inset 0 1px 0 rgba(255,255,255,.5);
+  animation:pulse 1.8s ease-in-out infinite;
+  transition:transform .15s;
+}
+.btn-start:active{transform:scale(.96)}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 1px rgba(255,215,94,.5),0 8px 30px rgba(240,177,62,.30),inset 0 1px 0 rgba(255,255,255,.5)}50%{box-shadow:0 0 0 1px rgba(255,215,94,.8),0 8px 44px rgba(240,177,62,.55),inset 0 1px 0 rgba(255,255,255,.5)}}
+.title-foot{margin-top:26px;font-size:11px;color:#5b6374;letter-spacing:.08em}
+
+/* ================= 事前申告画面 ================= */
+.predict-screen{padding-top:clamp(40px,9vh,80px);text-align:center}
+.predict-label{font-family:var(--disp);font-size:12px;letter-spacing:.4em;color:var(--cyan);margin-bottom:18px}
+.predict-title{font-size:clamp(21px,6vw,26px);font-weight:900;line-height:1.5;margin-bottom:10px}
+.predict-note{font-size:13px;color:var(--dim);margin-bottom:30px}
+.predict-note strong{color:var(--gold-bright)}
+.predict-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;max-width:420px;margin:0 auto 22px}
+.p-rank{
+  font-family:var(--disp);font-size:20px;color:var(--paper);
+  background:var(--panel);border:1px solid rgba(255,255,255,.1);border-radius:12px;
+  padding:18px 0 14px;cursor:pointer;transition:all .15s;position:relative;
+}
+.p-rank small{display:block;font-family:var(--body);font-size:9.5px;color:var(--dim);margin-top:4px;letter-spacing:.04em}
+@media(hover:hover){.p-rank:hover{border-color:var(--gold);background:var(--panel2);transform:translateY(-2px)}}
+.p-rank:active{transform:scale(.95)}
+.p-rank.sss{color:var(--gold-bright);border-color:rgba(255,215,94,.4)}
+.btn-nopredict{
+  background:none;border:1px dashed rgba(255,255,255,.2);border-radius:10px;
+  color:var(--dim);font-family:var(--body);font-size:12.5px;letter-spacing:.08em;
+  padding:13px 24px;cursor:pointer;transition:color .15s,border-color .15s;
+}
+.btn-nopredict:hover{color:var(--paper);border-color:rgba(255,255,255,.4)}
+
+/* ================= 答え合わせパネル ================= */
+.selfcheck-vs{
+  display:flex;align-items:center;justify-content:center;gap:18px;
+  margin-bottom:16px;font-family:var(--disp);
+}
+.selfcheck-vs .sc-col{text-align:center}
+.selfcheck-vs .sc-cap{font-family:var(--body);font-size:10.5px;color:var(--dim);letter-spacing:.18em;margin-bottom:4px}
+.selfcheck-vs .sc-rank{font-size:34px;line-height:1.1}
+.selfcheck-vs .sc-arrow{font-size:20px;color:var(--dim)}
+.sc-verdict{
+  display:inline-block;font-size:13px;font-weight:900;letter-spacing:.1em;
+  border-radius:999px;padding:6px 18px;margin-bottom:12px;
+}
+.sc-verdict.over{background:rgba(229,72,77,.15);color:#ff8a8e;border:1px solid rgba(229,72,77,.4)}
+.sc-verdict.under{background:rgba(90,215,208,.12);color:var(--cyan);border:1px solid rgba(90,215,208,.4)}
+.sc-verdict.exact{background:rgba(255,215,94,.12);color:var(--gold-bright);border:1px solid rgba(255,215,94,.45)}
+.sc-text{font-size:13.5px;color:#cdd3df;line-height:1.85}
+.sc-center{text-align:center}
+
+/* ================= 分布図 ================= */
+.dist-headline{text-align:center;margin-bottom:20px}
+.dist-headline .dh-big{
+  font-family:var(--disp);font-size:30px;letter-spacing:.04em;line-height:1.3;
+}
+.dist-headline .dh-big.gold{color:var(--gold-bright);text-shadow:0 0 18px rgba(255,215,94,.4)}
+.dist-headline .dh-big.cyan{color:var(--cyan);text-shadow:0 0 18px rgba(90,215,208,.4)}
+.dist-headline .dh-cap{font-size:11.5px;color:var(--dim);letter-spacing:.14em;margin-top:4px}
+.dist-chart{
+  display:flex;align-items:flex-end;justify-content:center;gap:7px;
+  height:150px;padding:26px 4px 0;margin-bottom:6px;
+}
+.dist-col{flex:1;max-width:52px;display:flex;flex-direction:column;align-items:center;height:100%;justify-content:flex-end;position:relative}
+.dist-bar{
+  width:100%;border-radius:5px 5px 0 0;
+  background:linear-gradient(180deg,rgba(240,177,62,.35),rgba(240,177,62,.08));
+  border:1px solid rgba(240,177,62,.2);border-bottom:none;
+  transform:scaleY(0);transform-origin:bottom;
+  animation:barGrow .7s cubic-bezier(.22,1,.36,1) forwards;
+}
+@keyframes barGrow{to{transform:scaleY(1)}}
+.dist-col.me .dist-bar{
+  background:linear-gradient(180deg,var(--gold-bright),rgba(240,177,62,.35));
+  border-color:rgba(255,215,94,.8);
+  box-shadow:0 0 18px rgba(255,215,94,.45);
+}
+.dist-you{
+  position:absolute;top:-26px;left:50%;transform:translateX(-50%);
+  font-family:var(--disp);font-size:11px;color:var(--cyan);white-space:nowrap;
+  text-shadow:0 0 8px rgba(90,215,208,.8);
+  animation:youBounce 1.1s ease-in-out infinite;
+}
+@keyframes youBounce{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,-5px)}}
+.dist-rank{font-family:var(--disp);font-size:11px;color:var(--dim);margin-top:7px}
+.dist-col.me .dist-rank{color:var(--gold-bright)}
+.dist-share{font-size:9px;color:#4d5568;margin-top:1px;font-family:var(--disp)}
+.dist-note{font-size:10px;color:#4d5568;text-align:center;letter-spacing:.05em}
+
+/* PERFECT演出 */
+.perfect-badge{
+  display:inline-block;font-family:var(--disp);font-size:13px;letter-spacing:.3em;
+  color:#06080f;background:linear-gradient(120deg,#ffd75e,#fff,#5ad7d0,#ffd75e);
+  background-size:250% 250%;animation:shimmer 2s linear infinite;
+  border-radius:999px;padding:7px 20px;margin:6px 0 10px;
+}
+
+/* ================= 質問画面 ================= */
+.quiz-screen{padding-top:34px}
+.quiz-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.q-counter{font-family:var(--disp);font-size:15px;color:var(--gold);letter-spacing:.1em}
+.axis-tag{
+  font-size:11px;letter-spacing:.18em;color:var(--cyan);
+  border:1px solid rgba(90,215,208,.3);border-radius:4px;padding:3px 10px;
+  background:rgba(90,215,208,.06);
+}
+.progress-rail{height:6px;background:#161d31;border-radius:99px;overflow:hidden;margin-bottom:30px;border:1px solid rgba(255,255,255,.05)}
+.progress-fill{
+  height:100%;width:0%;border-radius:99px;
+  background:linear-gradient(90deg,var(--gold),var(--gold-bright));
+  box-shadow:0 0 12px rgba(240,177,62,.6);
+  transition:width .45s cubic-bezier(.22,1,.36,1);
+}
+.q-text{
+  font-size:clamp(19px,5.4vw,23px);font-weight:900;line-height:1.55;
+  margin-bottom:24px;min-height:3.1em;
+}
+.q-text::before{content:'▍';color:var(--gold);margin-right:2px}
+.opts{display:flex;flex-direction:column;gap:12px}
+.opt{
+  text-align:left;font-family:var(--body);font-size:14.5px;font-weight:500;line-height:1.55;
+  color:var(--paper);background:var(--panel);
+  border:1px solid rgba(255,255,255,.08);border-radius:12px;
+  padding:16px 18px 16px 50px;cursor:pointer;position:relative;
+  transition:border-color .15s,background .15s,transform .1s;
+  animation:optIn .4s cubic-bezier(.22,1,.36,1) both;
+}
+.opt:nth-child(1){animation-delay:.03s}.opt:nth-child(2){animation-delay:.09s}
+.opt:nth-child(3){animation-delay:.15s}.opt:nth-child(4){animation-delay:.21s}
+@keyframes optIn{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:none}}
+.opt::before{
+  content:'';position:absolute;left:18px;top:50%;transform:translateY(-50%);
+  width:16px;height:16px;border-radius:50%;
+  border:2px solid rgba(240,177,62,.4);transition:all .15s;
+}
+@media(hover:hover){
+  .opt:hover{border-color:var(--gold);background:var(--panel2)}
+  .opt:hover::before{border-color:var(--gold)}
+}
+.opt.picked{
+  border-color:var(--gold-bright);background:linear-gradient(180deg,rgba(240,177,62,.16),rgba(240,177,62,.06));
+  transform:scale(.99);
+}
+.opt.picked::before{border-color:var(--gold-bright);background:var(--gold-bright);box-shadow:0 0 10px rgba(255,215,94,.8)}
+.quiz-foot{margin-top:26px;display:flex;justify-content:flex-start}
+.btn-back{
+  font-size:12px;color:var(--dim);background:none;border:none;cursor:pointer;
+  letter-spacing:.14em;padding:8px 4px;font-family:var(--body);
+}
+.btn-back:hover{color:var(--paper)}
+
+/* ================= 査定中画面 ================= */
+.judge-screen{padding-top:16vh;text-align:center}
+.judge-label{font-family:var(--disp);font-size:14px;letter-spacing:.4em;color:var(--gold);margin-bottom:30px;animation:blink 1s steps(2) infinite}
+.judge-rank{
+  font-family:var(--disp);font-size:110px;line-height:1;
+  color:var(--gold-bright);text-shadow:0 0 50px rgba(255,215,94,.5);
+  margin-bottom:36px;min-height:120px;
+}
+.judge-msg{font-size:13px;color:var(--dim);letter-spacing:.1em;min-height:1.7em}
+
+/* ================= 結果画面 ================= */
+.result-screen{padding-top:38px}
+.result-head{
+  text-align:center;margin-bottom:10px;position:relative;
+  background:
+    radial-gradient(ellipse 90% 60% at 50% 0%,rgba(240,177,62,.07),transparent 70%),
+    linear-gradient(180deg,#101628,#0c1120);
+  border:1px solid rgba(240,177,62,.35);
+  border-radius:18px;
+  padding:26px 18px 20px;
+  box-shadow:inset 0 0 0 1px rgba(6,8,15,.9),inset 0 0 0 3px rgba(240,177,62,.12),0 20px 50px rgba(0,0,0,.4);
+}
+.result-head::before,.result-head::after{
+  content:'';position:absolute;width:26px;height:26px;pointer-events:none;
+  border-color:var(--gold);border-style:solid;opacity:.8;
+}
+.result-head::before{top:8px;left:8px;border-width:2px 0 0 2px;border-radius:6px 0 0 0}
+.result-head::after{bottom:8px;right:8px;border-width:0 2px 2px 0;border-radius:0 0 6px 0}
+.cert-stamp{
+  position:absolute;top:58px;right:18px;z-index:3;
+  font-family:var(--disp);font-size:15px;letter-spacing:.1em;color:var(--red);
+  border:2px solid var(--red);border-radius:8px;padding:6px 8px;
+  transform:rotate(12deg);opacity:0;
+  animation:stampIn .4s cubic-bezier(.34,1.56,.64,1) 1.15s forwards;
+  text-shadow:0 0 8px rgba(229,72,77,.4);
+  box-shadow:inset 0 0 10px rgba(229,72,77,.15);
+}
+@keyframes stampIn{from{opacity:0;transform:rotate(12deg) scale(2.2)}to{opacity:.92;transform:rotate(12deg) scale(1)}}
+.cert-axes{
+  display:flex;justify-content:center;gap:7px;margin:0 auto 16px;flex-wrap:wrap;
+  animation:screenIn .5s .65s both;
+}
+.cert-axes .ca{
+  font-family:var(--disp);font-size:12px;color:#b9c0cf;
+  border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:4px 8px;
+  background:rgba(255,255,255,.03);
+}
+.cert-axes .ca b{color:var(--gold-bright);font-weight:400}
+.cert-foot{
+  display:flex;justify-content:space-between;align-items:center;gap:8px;
+  border-top:1px dashed rgba(240,177,62,.25);padding-top:12px;margin-top:4px;
+  font-family:var(--disp);font-size:10px;color:#6b7488;letter-spacing:.12em;
+  animation:screenIn .5s .7s both;
+}
+.prev-chip{
+  display:inline-block;font-size:12px;font-weight:700;letter-spacing:.05em;
+  border-radius:999px;padding:5px 14px;margin:2px 0 12px;
+  animation:screenIn .5s .62s both;
+}
+.prev-chip.up{background:rgba(90,215,208,.12);color:var(--cyan);border:1px solid rgba(90,215,208,.35)}
+.prev-chip.down{background:rgba(229,72,77,.1);color:#ff8a8e;border:1px solid rgba(229,72,77,.3)}
+.prev-chip.same{background:rgba(255,255,255,.05);color:var(--dim);border:1px solid rgba(255,255,255,.15)}
+.shot-hint{text-align:center;font-size:11px;color:#5b6374;letter-spacing:.1em;margin-bottom:20px}
+.last-result{
+  margin-top:18px;font-size:12px;color:var(--cyan);letter-spacing:.08em;
+  border:1px dashed rgba(90,215,208,.35);border-radius:999px;
+  display:inline-block;padding:6px 18px;background:rgba(90,215,208,.05);
+}
+/* 結果パネルの段差表示 */
+.result-screen .panel{animation:screenIn .55s both}
+.result-screen .panel:nth-of-type(2){animation-delay:.15s}
+.result-screen .panel:nth-of-type(3){animation-delay:.3s}
+.result-screen .panel:nth-of-type(4){animation-delay:.45s}
+.result-screen .panel:nth-of-type(5){animation-delay:.6s}
+.result-label{font-family:var(--disp);font-size:11px;letter-spacing:.42em;color:var(--dim);margin-bottom:22px}
+.emblem{
+  position:relative;width:190px;height:190px;margin:0 auto 20px;
+  display:flex;align-items:center;justify-content:center;
+  animation:stamp .55s cubic-bezier(.34,1.56,.64,1) .15s both;
+}
+@keyframes stamp{from{opacity:0;transform:scale(2.4) rotate(-14deg)}to{opacity:1;transform:scale(1) rotate(0)}}
+.emblem svg{position:absolute;inset:0;width:100%;height:100%}
+.emblem .ring{animation:spin 24s linear infinite;transform-origin:center}
+@keyframes spin{to{transform:rotate(360deg)}}
+.emblem-rank{
+  font-family:var(--disp);font-size:64px;line-height:1;position:relative;z-index:2;
+  letter-spacing:-.02em;
+}
+.emblem-rank.grad{
+  background:linear-gradient(120deg,#ffd75e,#fff8e0,#5ad7d0,#ffd75e);
+  background-size:250% 250%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:shimmer 2.4s linear infinite;
+}
+.result-title{
+  font-size:clamp(24px,7vw,30px);font-weight:900;letter-spacing:.06em;margin-bottom:6px;
+  animation:screenIn .5s .4s both;
+}
+.result-sub{font-size:13px;color:var(--dim);letter-spacing:.14em;margin-bottom:20px;animation:screenIn .5s .5s both}
+.score-line{
+  font-family:var(--disp);font-size:17px;color:var(--gold);letter-spacing:.14em;
+  margin-bottom:6px;animation:screenIn .5s .55s both;
+}
+.score-line .num{font-size:34px;color:var(--gold-bright)}
+.next-gauge{max-width:320px;margin:0 auto 34px;animation:screenIn .5s .6s both}
+.next-gauge .g-label{font-size:11px;color:var(--dim);letter-spacing:.12em;margin-bottom:6px;display:flex;justify-content:space-between}
+.next-gauge .rail{height:8px;background:#161d31;border-radius:99px;border:1px solid rgba(255,255,255,.06);overflow:hidden}
+.next-gauge .fill{height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--gold-bright));border-radius:99px;transition:width 1.2s cubic-bezier(.22,1,.36,1) .9s;box-shadow:0 0 10px rgba(90,215,208,.5)}
+
+.panel{
+  background:linear-gradient(180deg,var(--panel2),var(--panel));
+  border:1px solid var(--line);border-radius:16px;
+  padding:24px 22px;margin-bottom:18px;position:relative;overflow:hidden;
+}
+.panel::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,215,94,.5),transparent);
+}
+.panel-label{
+  font-family:var(--disp);font-size:12px;letter-spacing:.3em;color:var(--gold);
+  margin-bottom:16px;display:flex;align-items:center;gap:10px;
+}
+.panel-label::after{content:'';flex:1;height:1px;background:var(--line)}
+.radar-wrap{display:flex;justify-content:center;margin-bottom:8px}
+.axis-rows{display:flex;flex-direction:column;gap:10px;margin-top:14px}
+.axis-row{display:grid;grid-template-columns:6.4em 1fr 3.2em;align-items:center;gap:10px;font-size:12.5px}
+.axis-row .name{color:#b9c0cf;letter-spacing:.06em}
+.axis-row .rail{height:7px;background:#161d31;border-radius:99px;overflow:hidden;border:1px solid rgba(255,255,255,.05)}
+.axis-row .fill{height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--gold-bright));border-radius:99px;transition:width .9s cubic-bezier(.22,1,.36,1)}
+.axis-row.weak .fill{background:linear-gradient(90deg,#a34a4e,var(--red))}
+.axis-row.strong .fill{background:linear-gradient(90deg,#2e9d97,var(--cyan))}
+.axis-row .val{font-family:var(--disp);color:var(--gold);text-align:right;font-size:13px}
+.diag-text{font-size:14px;color:#cdd3df;line-height:1.95}
+.diag-text strong{color:var(--gold-bright);font-weight:700}
+.diag-text .hl-weak{color:#ff8a8e;font-weight:700}
+.diag-text .hl-strong{color:var(--cyan);font-weight:700}
+.diag-text p+p{margin-top:12px}
+
+.prompt-panel{border-color:rgba(90,215,208,.35)}
+.prompt-panel::before{background:linear-gradient(90deg,transparent,rgba(90,215,208,.6),transparent)}
+.prompt-panel .panel-label{color:var(--cyan)}
+.prompt-panel .panel-label::after{background:rgba(90,215,208,.25)}
+.prompt-desc{font-size:13px;color:#b9c0cf;margin-bottom:14px}
+.prompt-desc strong{color:var(--cyan)}
+.prompt-box{
+  background:#080b14;border:1px solid rgba(90,215,208,.2);border-radius:10px;
+  padding:16px;font-size:12px;line-height:1.8;color:#a8e8e4;
+  white-space:pre-wrap;word-break:break-word;max-height:260px;overflow-y:auto;
+  font-family:ui-monospace,'SF Mono',Menlo,monospace;
+  margin-bottom:14px;
+}
+.btn-copy{
+  width:100%;font-family:var(--body);font-size:14px;font-weight:700;letter-spacing:.1em;
+  color:var(--ink);background:linear-gradient(180deg,#7fe3dd,var(--cyan));
+  border:none;border-radius:10px;padding:15px;cursor:pointer;
+  box-shadow:0 4px 20px rgba(90,215,208,.25);transition:transform .12s;
+}
+.btn-copy:active{transform:scale(.97)}
+.prompt-hint{font-size:11px;color:#5b6374;margin-top:10px;text-align:center;letter-spacing:.05em}
+
+.actions{display:flex;flex-direction:column;gap:12px;margin-top:26px}
+.btn-share{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  font-size:15px;font-weight:900;letter-spacing:.08em;text-decoration:none;
+  color:#fff;background:#15181c;border:1px solid rgba(255,255,255,.16);
+  border-radius:12px;padding:17px;transition:transform .12s,border-color .15s;
+}
+.btn-share:active{transform:scale(.98)}
+.btn-share svg{width:18px;height:18px;fill:#fff}
+.btn-line{
+  display:block;text-align:center;font-size:15px;font-weight:900;letter-spacing:.06em;
+  text-decoration:none;color:#08120b;
+  background:linear-gradient(180deg,#3ddc6a,#22c25a);
+  border-radius:12px;padding:17px;
+  box-shadow:0 6px 24px rgba(34,194,90,.3);transition:transform .12s;
+}
+.btn-line:active{transform:scale(.98)}
+.btn-line small{display:block;font-size:11px;font-weight:500;opacity:.85;margin-top:2px}
+.btn-retry{
+  background:none;border:none;color:var(--dim);font-family:var(--body);
+  font-size:12px;letter-spacing:.14em;cursor:pointer;padding:12px;margin:6px auto 0;display:block;
+}
+.btn-retry:hover{color:var(--paper)}
+
+.toast{
+  position:fixed;left:50%;bottom:34px;transform:translate(-50%,20px);
+  background:var(--gold-bright);color:var(--ink);font-size:13px;font-weight:700;
+  padding:11px 26px;border-radius:99px;opacity:0;pointer-events:none;
+  transition:all .3s cubic-bezier(.22,1,.36,1);z-index:50;letter-spacing:.06em;
+  box-shadow:0 8px 30px rgba(0,0,0,.4);
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* 紙吹雪 */
+.confetti{position:fixed;top:-12px;z-index:40;pointer-events:none;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(105vh) rotate(720deg);opacity:.2}}
+
+@media(max-width:400px){
+  .rank-ladder .r{font-size:12px;padding:7px 0 5px}
+  .axis-row{grid-template-columns:5.6em 1fr 3em;font-size:11.5px}
+}
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+<div class="wrap">
+
+  <!-- ============ タイトル ============ -->
+  <section class="screen title-screen active" id="scr-title">
+    <div class="sys-label">▸ AI PROFICIENCY CHECK SYSTEM</div>
+    <h1 class="main-title"><span class="ai">AI</span>活用レベル<br>診断</h1>
+    <p class="sub-title">— あなたのAI活用力、査定します —</p>
+    <div class="rank-ladder">
+      <div class="you-cursor">YOU?<br>▼</div>
+      <div class="r">E</div><div class="r">D</div><div class="r">C</div><div class="r">B</div>
+      <div class="r">A</div><div class="r">S</div><div class="r">SS</div><div class="r top">SSS</div>
+    </div>
+    <p class="provoke">「AI使いこなしてる」と思っている人ほど、B級で止まります。</p>
+    <div class="spec-chips">
+      <span class="chip">全10問</span><span class="chip">約2分</span><span class="chip">無料・登録不要</span>
+    </div>
+    <p class="lead">5つの軸であなたのAI活用力を分析し、<strong>E〜SSSの8段階</strong>でランク判定。<br>結果に合わせた<strong>「次のレベルに行くためのプロンプト」</strong>をその場でお渡しします。</p>
+    <button class="btn-start" onclick="startQuiz()">▶ 査定を開始する</button>
+    <div id="lastResultWrap"></div>
+    <p class="title-foot">回答データはあなたの端末内でのみ処理されます</p>
+  </section>
+
+  <!-- ============ 事前申告 ============ -->
+  <section class="screen predict-screen" id="scr-predict">
+    <div class="predict-label">▸ ENTRY — 事前申告</div>
+    <h2 class="predict-title">査定の前に。<br>あなたの<span style="color:var(--gold-bright)">予想ランク</span>は？</h2>
+    <p class="predict-note">診断後に<strong>答え合わせ</strong>をします。<br>自分のAIレベル、当てられますか？</p>
+    <div class="predict-grid">
+      <button class="p-rank" onclick="choosePredict('E')">E<small>鎖国中</small></button>
+      <button class="p-rank" onclick="choosePredict('D')">D<small>観光客</small></button>
+      <button class="p-rank" onclick="choosePredict('C')">C<small>おしゃべり</small></button>
+      <button class="p-rank" onclick="choosePredict('B')">B<small>相棒持ち</small></button>
+      <button class="p-rank" onclick="choosePredict('A')">A<small>仕事人</small></button>
+      <button class="p-rank" onclick="choosePredict('S')">S<small>指揮官</small></button>
+      <button class="p-rank" onclick="choosePredict('SS')">SS<small>経営者</small></button>
+      <button class="p-rank sss" onclick="choosePredict('SSS')">SSS<small>人機一体</small></button>
+    </div>
+    <button class="btn-nopredict" onclick="choosePredict(null)">予想できない…申告せずに査定へ →</button>
+  </section>
+
+  <!-- ============ 質問 ============ -->
+  <section class="screen quiz-screen" id="scr-quiz">
+    <div class="quiz-head">
+      <div class="q-counter" id="qCounter">Q.01 / 10</div>
+      <div class="axis-tag" id="axisTag">頻度・習慣</div>
+    </div>
+    <div class="progress-rail"><div class="progress-fill" id="progFill"></div></div>
+    <h2 class="q-text" id="qText"></h2>
+    <div class="opts" id="opts"></div>
+    <div class="quiz-foot"><button class="btn-back" id="btnBack" onclick="goBack()">← ひとつ前に戻る</button></div>
+  </section>
+
+  <!-- ============ 査定中 ============ -->
+  <section class="screen judge-screen" id="scr-judge">
+    <div class="judge-label">NOW JUDGING…</div>
+    <div class="judge-rank" id="judgeRank">?</div>
+    <div class="judge-msg" id="judgeMsg">回答パターンを解析中…</div>
+  </section>
+
+  <!-- ============ 結果 ============ -->
+  <section class="screen result-screen" id="scr-result">
+    <div class="result-head">
+      <div class="cert-stamp">認定</div>
+      <div class="result-label">▸ 査定完了 — CERTIFICATE</div>
+      <div class="emblem" id="emblem">
+        <svg viewBox="0 0 190 190">
+          <circle cx="95" cy="95" r="88" fill="none" stroke="rgba(240,177,62,.18)" stroke-width="1"/>
+          <circle cx="95" cy="95" r="76" fill="rgba(240,177,62,.05)" stroke="var(--rank-color,#f0b13e)" stroke-width="2"/>
+          <g class="ring">
+            <circle cx="95" cy="95" r="88" fill="none" stroke="var(--rank-color,#f0b13e)" stroke-width="1.5" stroke-dasharray="4 14" opacity=".7"/>
+          </g>
+        </svg>
+        <div class="emblem-rank" id="emblemRank">S</div>
+      </div>
+      <h2 class="result-title" id="resultTitle"></h2>
+      <p class="result-sub" id="resultSub"></p>
+      <div class="score-line">SCORE <span class="num" id="scoreNum">0</span> / 100</div>
+      <div id="prevChipWrap"></div>
+      <div class="next-gauge" id="nextGauge">
+        <div class="g-label"><span id="nextLabel"></span><span id="nextPts"></span></div>
+        <div class="rail"><div class="fill" id="nextFill"></div></div>
+      </div>
+      <div class="cert-axes" id="certAxes"></div>
+      <div class="cert-foot">
+        <span id="certNo">NO.00000-00</span>
+        <span id="certDate">0000.00.00</span>
+        <span>AI活用レベル診断</span>
+      </div>
+    </div>
+    <p class="shot-hint">📸 この査定証はスクショして自慢してOKです</p>
+
+    <div class="panel sc-center" id="selfCheckPanel" style="display:none">
+      <div class="panel-label">SELF-CHECK — 答え合わせ</div>
+      <div class="selfcheck-vs">
+        <div class="sc-col"><div class="sc-cap">あなたの予想</div><div class="sc-rank" id="scPred">?</div></div>
+        <div class="sc-arrow">▶</div>
+        <div class="sc-col"><div class="sc-cap">現実</div><div class="sc-rank" id="scActual">?</div></div>
+      </div>
+      <div class="sc-verdict" id="scVerdict"></div>
+      <p class="sc-text" id="scText"></p>
+    </div>
+
+    <div class="panel">
+      <div class="panel-label">POSITION — 分布での現在地</div>
+      <div class="dist-headline" id="distHeadline"></div>
+      <div class="dist-chart" id="distChart"></div>
+      <p class="dist-note">※ 分布は運営の想定モデルによる推定値です</p>
+    </div>
+
+    <div class="panel">
+      <div class="panel-label">ANALYSIS — 5軸スコア</div>
+      <div class="radar-wrap" id="radarWrap"></div>
+      <div class="axis-rows" id="axisRows"></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-label">DIAGNOSIS — 査定コメント</div>
+      <div class="diag-text" id="diagText"></div>
+    </div>
+
+    <div class="panel prompt-panel">
+      <div class="panel-label">REWARD — 次のレベルに行くプロンプト</div>
+      <p class="prompt-desc">あなたの診断結果が<strong>そのまま埋め込まれた専用プロンプト</strong>です。コピーしてChatGPTやClaudeに貼り付けると、AIがあなた専属のコーチになり、次のランクへの具体的な実行プランを作ってくれます。</p>
+      <div class="prompt-box" id="promptBox"></div>
+      <button class="btn-copy" onclick="copyPrompt()">📋 プロンプトをコピーする</button>
+      <p class="prompt-hint">※ ChatGPT / Claude / Gemini どれでも使えます</p>
+    </div>
+
+    <div class="actions">
+      <a class="btn-share" id="btnShare" href="#" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        結果をXでシェアする
+      </a>
+      <a class="btn-line" id="btnLine" href="#" target="_blank" rel="noopener">
+        🎁 全8ランク分のプロンプト＋レベルアップ教材を受け取る
+        <small>公式LINEで無料配布中（追加ですぐ届きます）</small>
+      </a>
+      <button class="btn-retry" onclick="location.reload()">↻ もう一度診断する</button>
+    </div>
+  </section>
+
+</div>
+<div class="toast" id="toast">コピーしました！AIに貼り付けてください</div>
+
+<script>
+/* ============================================================
+   設定：公開時にここを書き換える
+============================================================ */
+const SITE_URL = 'https://example.com/ai-level-check/'; // ★公開URLに差し替え
+const LINE_URL = 'https://lin.ee/XXXXXXX';              // ★公式LINEのURLに差し替え
+
+/* ============================================================
+   診断データ
+============================================================ */
+const AXES = [
+  {id:'freq',   label:'頻度・習慣'},
+  {id:'range',  label:'用途の広さ'},
+  {id:'prompt', label:'指示力'},
+  {id:'system', label:'仕組み化'},
+  {id:'output', label:'成果直結'},
+];
+
+const QUESTIONS = [
+  {axis:'freq', q:'直近1週間で、AIに話しかけた回数は？', opts:[
+    {t:'ほぼ0回。使う機会がなかった',p:0},
+    {t:'2〜3回。思い出したときに',p:1},
+    {t:'ほぼ毎日、1日1回以上は開いている',p:2},
+    {t:'1日に何度も。息をするように使っている',p:3},
+  ]},
+  {axis:'freq', q:'朝、仕事や作業を始めるときの動きに一番近いのは？', opts:[
+    {t:'AIは特に登場しない',p:0},
+    {t:'作業中に詰まったときだけAIを開く',p:1},
+    {t:'まずAIに今日のタスクや段取りを整理させる',p:2},
+    {t:'夜のうちにAIが進めておいた結果を確認するところから始まる',p:3},
+  ]},
+  {axis:'range', q:'AIを使ったことがある用途は、いくつある？（文章・画像・調べもの・資料・コード・翻訳・分析・企画など）', opts:[
+    {t:'0〜1種類',p:0},
+    {t:'2〜3種類',p:1},
+    {t:'4〜5種類',p:2},
+    {t:'6種類以上。しかも組み合わせて使う',p:3},
+  ]},
+  {axis:'range', q:'「これはAIには無理でしょ」と思う仕事に出会ったとき、どうする？', opts:[
+    {t:'そもそもAIにできることをよく知らない',p:0},
+    {t:'無理そうなら最初から自分でやる',p:1},
+    {t:'一応AIに投げてみて、ダメなら自分でやる',p:2},
+    {t:'タスクを分解して「AIにやれる形」に変えてから投げる',p:3},
+  ]},
+  {axis:'prompt', q:'AIへの指示（プロンプト）の出し方に一番近いのは？', opts:[
+    {t:'ほとんど指示を出したことがない',p:0},
+    {t:'聞きたいことを一言で投げる',p:1},
+    {t:'背景・条件・出力形式を添えて依頼する',p:2},
+    {t:'目的だけ渡して、進め方はAIに設計させて壁打ちする',p:3},
+  ]},
+  {axis:'prompt', q:'AIの回答がイマイチだったとき、どうしてる？', opts:[
+    {t:'「AIってこんなもんか」と閉じる',p:0},
+    {t:'言い方を変えてもう一度聞いてみる',p:1},
+    {t:'何が足りなかったか特定して、条件を足して修正させる',p:2},
+    {t:'そもそも一発で当たるよう、資料やお手本を先に渡す型を持っている',p:3},
+  ]},
+  {axis:'system', q:'毎回くり返すような定型の作業、どう処理してる？', opts:[
+    {t:'毎回ぜんぶ手作業',p:0},
+    {t:'毎回AIにゼロから同じお願いをしている',p:1},
+    {t:'定型プロンプトを保存して使い回している',p:2},
+    {t:'自動で回る仕組み（エージェント・API・定期実行）にしてある',p:3},
+  ]},
+  {axis:'system', q:'AIに渡している「情報」はどのレベル？', opts:[
+    {t:'その場で打ち込む文章だけ',p:0},
+    {t:'過去のチャット履歴の続きで文脈を保つ',p:1},
+    {t:'自分の資料やデータをファイルで読み込ませる',p:2},
+    {t:'業務フォルダごと接続して、常時参照できる状態にしている',p:3},
+  ]},
+  {axis:'output', q:'AIで作ったものは、最終的にどうなっている？', opts:[
+    {t:'まだ何も作ったことがない',p:0},
+    {t:'下書きや参考として使い、最後は自分で作り直す',p:1},
+    {t:'ほぼそのまま仕事の成果物として世に出ている',p:2},
+    {t:'収益・実績・評価に直結している',p:3},
+  ]},
+  {axis:'output', q:'AIを使い始める前と比べて、あなたの仕事は？', opts:[
+    {t:'正直、特に変わっていない',p:0},
+    {t:'ちょっと楽になった実感はある',p:1},
+    {t:'作業時間が体感で半分以下になった',p:2},
+    {t:'一人では不可能だった量・質の仕事が回せている',p:3},
+  ]},
+];
+
+/* ランク定義（スコアは100点満点） */
+const RANKS = [
+  {min:93, rank:'SSS', title:'人機一体',     sub:'AI-HUMAN SINGULARITY', color:'grad',
+   desc:'もはやあなたとAIの境界は曖昧です。AIが夜間も稼働し、あなたは「実行する人」ではなく「方向を決めて束ねる人」になっている。このレベルに到達している人はごく一握りで、周囲からは仕事量が物理法則を無視しているように見えているはずです。',
+   next:'ここから先は「自分が上がる」より「人を引き上げる」フェーズ。あなたの活用法そのものが、発信すれば資産になります。'},
+  {min:83, rank:'SS', title:'AI経営者',      sub:'AI ORCHESTRATOR', color:'#ffd75e',
+   desc:'あなたはAIを「道具」ではなく「部下のチーム」として扱っています。タスクを分解して投げ、仕組みで回し、成果物まで直結させる。すでに一人で小さな会社レベルのアウトプットが出せている状態です。',
+   next:'SSSとの差は「自分が寝ている間もAIが動いているか」。定期実行・エージェント化で、稼働時間の壁を外すのが最後のピースです。'},
+  {min:70, rank:'S', title:'AI指揮官',       sub:'AI COMMANDER', color:'#7fd7ff',
+   desc:'AIとの共同作業が完全に日常になっており、指示の出し方も的確。単発の作業では既に上位数%の使い手です。あなたの周りでは「AIに詳しい人」として認識されているのではないでしょうか。',
+   next:'SSに上がる鍵は「単発の上手さ」を「仕組み」に変えること。優れたやり取りをテンプレ化・自動化し、再現性を持たせた瞬間にランクが跳ねます。'},
+  {min:56, rank:'A', title:'AI仕事人',       sub:'AI PRACTITIONER', color:'#6ee7a8',
+   desc:'AIが仕事の武器として機能し始めています。成果物づくりに実際に組み込めており、「使える人」の側に入りました。ただ、毎回ゼロから指示を組み立てている時間が、実は一番のロスになっています。',
+   next:'Sへの壁は「指示の型化」。うまくいったプロンプトを保存して資産にし、資料を読み込ませて文脈ごと渡す。ここを越えると世界が変わります。'},
+  {min:40, rank:'B', title:'AI相棒持ち',     sub:'AI PARTNER USER', color:'#6ea8ff',
+   desc:'AIとの付き合いは日常になってきましたが、まだ「賢い相談相手」の域に留まっています。会話はしているのに、成果物や時間短縮への変換率が低い——ここがもったいないポイントです。',
+   next:'Aへの近道は「会話で終わらせず、必ず成果物まで作らせる」こと。文章・資料・企画書、なんでもいい。最後のアウトプットまでAIにやらせる癖をつけましょう。'},
+  {min:25, rank:'C', title:'AIおしゃべり勢', sub:'AI CASUAL TALKER', color:'#d0a878',
+   desc:'AIには触れているものの、使い方は「検索のちょっと賢い版」。聞けば答えてくれる道具、という認識で止まっています。正直、AIの実力の5%も引き出せていない状態です。',
+   next:'Bに上がるのは簡単で、「仕事の実タスクをひとつAIに丸投げしてみる」だけ。メール文・議事録・企画のたたき台あたりが最初の一歩に最適です。'},
+  {min:10, rank:'D', title:'AI観光客',       sub:'AI TOURIST', color:'#9aa4b2',
+   desc:'話題になったときに触ってみたことはある、という段階。景色は見たけれど、まだ住んではいない状態です。ただ、ここから伸びる余白が一番大きいのもこのランクです。',
+   next:'まずは「毎日1回、なんでもいいからAIに聞く」を1週間。頻度の壁さえ越えれば、Cは一瞬で通過できます。'},
+  {min:0, rank:'E', title:'AI鎖国中',        sub:'AI ISOLATIONIST', color:'#6b7280',
+   desc:'まだAIに対して開国していない状態です。しかし、悲観する必要はまったくありません。今のAIは2年前とは別物で、後から始めた人ほど最新の使い方から入れる「後発の利」があります。',
+   next:'今日この診断に辿り着いた時点で、開国は始まっています。まずは無料のChatGPTかClaudeに「明日の夕飯を提案して」から。それが第一歩です。'},
+];
+
+/* 弱点軸ごとのアドバイス */
+const WEAK_ADVICE = {
+  freq:'伸びしろが最も大きいのは<span class="hl-weak">「頻度・習慣」</span>。AI活用力は筋トレと同じで、接触回数がすべての土台です。<strong>朝イチにAIを開く習慣</strong>を1つ作るだけで、他の軸も連動して伸びます。',
+  range:'伸びしろが最も大きいのは<span class="hl-weak">「用途の広さ」</span>。使い方が特定の用途に固まっています。今やっている使い方を<strong>別のジャンルに横展開する</strong>だけで、スコアが一気に伸びる位置にいます。',
+  prompt:'伸びしろが最も大きいのは<span class="hl-weak">「指示力」</span>。AIの出力の質は、指示の質でほぼ決まります。<strong>「背景・役割・出力形式」の3点セット</strong>を渡すようにするだけで、返ってくる答えが別物になります。',
+  system:'伸びしろが最も大きいのは<span class="hl-weak">「仕組み化」</span>。毎回ゼロから指示するのは、毎朝ゼロから包丁を鍛えてから料理するようなもの。<strong>うまくいったプロンプトの保存・使い回し</strong>から始めましょう。',
+  output:'伸びしろが最も大きいのは<span class="hl-weak">「成果直結」</span>。AIとの会話が「会話のまま」終わっています。<strong>必ず成果物の形（文書・資料・データ）まで作らせて終える</strong>——このルールだけで変わります。',
+};
+const STRONG_NOTE = {
+  freq:'<span class="hl-strong">「頻度・習慣」</span>は既に高水準。AIが生活に組み込まれているのは大きな武器です。',
+  range:'<span class="hl-strong">「用途の広さ」</span>は既に高水準。応用範囲の広さはランクアップの推進力になります。',
+  prompt:'<span class="hl-strong">「指示力」</span>は既に高水準。AIを動かす言語化能力が備わっています。',
+  system:'<span class="hl-strong">「仕組み化」</span>は既に高水準。再現性を持って成果を出せる構造ができています。',
+  output:'<span class="hl-strong">「成果直結」</span>は既に高水準。AIを実利に変換できているのは上位者の証です。',
+};
+
+/* ============================================================
+   状態
+============================================================ */
+let current = 0;
+const answers = new Array(QUESTIONS.length).fill(null);
+let result = null;
+let predicted = null; // 事前申告ランク（'E'〜'SSS' or null）
+
+/* ============================================================
+   画面遷移
+============================================================ */
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  const el = document.getElementById(id);
+  el.classList.remove('active'); void el.offsetWidth; // アニメ再発火
+  el.classList.add('active');
+  window.scrollTo({top:0});
+}
+
+function startQuiz(){ show('scr-predict'); }
+function choosePredict(rank){ predicted = rank; current = 0; renderQuestion(); show('scr-quiz'); }
+
+function renderQuestion(){
+  const q = QUESTIONS[current];
+  document.getElementById('qCounter').textContent = `Q.${String(current+1).padStart(2,'0')} / ${QUESTIONS.length}`;
+  document.getElementById('axisTag').textContent = AXES.find(a=>a.id===q.axis).label;
+  document.getElementById('progFill').style.width = `${(current)/QUESTIONS.length*100}%`;
+  const qt = document.getElementById('qText');
+  qt.textContent = q.q;
+  const box = document.getElementById('opts');
+  box.innerHTML = '';
+  q.opts.forEach((o,i)=>{
+    const b = document.createElement('button');
+    b.className = 'opt' + (answers[current]===i ? ' picked' : '');
+    b.textContent = o.t;
+    b.onclick = ()=>pick(i,b);
+    box.appendChild(b);
+  });
+  document.getElementById('btnBack').style.visibility = current===0 ? 'hidden' : 'visible';
+}
+
+let locking = false;
+function pick(i,btn){
+  if(locking) return;
+  locking = true;
+  answers[current] = i;
+  document.querySelectorAll('.opt').forEach(o=>o.classList.remove('picked'));
+  btn.classList.add('picked');
+  document.getElementById('progFill').style.width = `${(current+1)/QUESTIONS.length*100}%`;
+  setTimeout(()=>{
+    locking = false;
+    if(current < QUESTIONS.length-1){ current++; renderQuestion(); }
+    else{ judge(); }
+  }, 380);
+}
+
+function goBack(){ if(current>0){ current--; renderQuestion(); } }
+
+/* ============================================================
+   採点 → 査定演出
+============================================================ */
+function calc(){
+  const axis = {freq:0,range:0,prompt:0,system:0,output:0};
+  QUESTIONS.forEach((q,idx)=>{ axis[q.axis] += q.opts[answers[idx]].p; });
+  const total = Object.values(axis).reduce((a,b)=>a+b,0);   // 最大30（5軸×6点）
+  const score = Math.round(total/30*100);
+  const rank = RANKS.find(r=>score>=r.min);
+  // 各軸を10点満点に換算
+  const axis10 = {};
+  AXES.forEach(a=>{ axis10[a.id] = Math.round(axis[a.id]/6*10); });
+  const sorted = AXES.slice().sort((a,b)=>axis10[a.id]-axis10[b.id]);
+  return {score, rank, axis10, weak:sorted[0], strong:sorted[sorted.length-1]};
+}
+
+function judge(){
+  result = calc();
+  show('scr-judge');
+  const letters = ['E','D','C','B','A','S','SS','SSS'];
+  const msgs = ['回答パターンを解析中…','5軸スコアを算出中…',
+    predicted ? `あなたの予想【${predicted}級】と照合中…` : 'ランク判定中…'];
+  const rEl = document.getElementById('judgeRank');
+  const mEl = document.getElementById('judgeMsg');
+  const start = Date.now();
+  const spin = setInterval(()=>{
+    const t = Date.now() - start;
+    rEl.textContent = letters[Math.floor(Math.random()*letters.length)];
+    if(t>=900) mEl.textContent = msgs[1];
+    if(t>=1800) mEl.textContent = msgs[2];
+    if(t>=2600){ clearInterval(spin); renderResult(); }
+  }, 90);
+}
+
+/* ============================================================
+   結果描画
+============================================================ */
+function renderResult(){
+  const {score, rank, axis10, weak, strong} = result;
+  show('scr-result');
+
+  // エンブレム
+  const em = document.getElementById('emblemRank');
+  em.textContent = rank.rank;
+  em.classList.toggle('grad', rank.color==='grad');
+  if(rank.color!=='grad'){ em.style.color = rank.color; em.style.textShadow = `0 0 30px ${rank.color}`; }
+  document.getElementById('emblem').style.setProperty('--rank-color', rank.color==='grad' ? '#ffd75e' : rank.color);
+  if(rank.rank==='SSS'||rank.rank==='SS') confetti();
+
+  document.getElementById('resultTitle').innerHTML =
+    `${rank.rank}級「${rank.title}」` + (score===100 ? '<br><span class="perfect-badge">★ PERFECT査定 ★</span>' : '');
+  document.getElementById('resultSub').textContent = rank.sub;
+
+  // スコアカウントアップ
+  const numEl = document.getElementById('scoreNum');
+  const cntStart = Date.now();
+  if(window.__cntTimer) clearInterval(window.__cntTimer);
+  window.__cntTimer = setInterval(()=>{
+    const p = Math.min(1, (Date.now()-cntStart)/1100);
+    numEl.textContent = Math.round(score * (1-Math.pow(1-p,3)));
+    if(p>=1) clearInterval(window.__cntTimer);
+  }, 28);
+
+  // 次ランクゲージ
+  const idx = RANKS.indexOf(rank);
+  const gauge = document.getElementById('nextGauge');
+  gauge.innerHTML = '<div class="g-label"><span id="nextLabel"></span><span id="nextPts"></span></div><div class="rail"><div class="fill" id="nextFill"></div></div>';
+  if(idx > 0){
+    const nextRank = RANKS[idx-1];
+    const span = (idx===RANKS.length-1 ? nextRank.min : nextRank.min - rank.min);
+    const pos = score - rank.min;
+    document.getElementById('nextLabel').textContent = `次のランク【${nextRank.rank}級】まで`;
+    document.getElementById('nextPts').textContent = `あと ${nextRank.min - score} 点`;
+    setTimeout(()=>{ document.getElementById('nextFill').style.width = `${Math.max(6, pos/span*100)}%`; }, 100);
+  } else {
+    gauge.innerHTML = '<div class="g-label" style="justify-content:center">👑 最高ランク到達 — カンスト済み</div>';
+  }
+
+  // 査定証の記入
+  const d = new Date();
+  document.getElementById('certDate').textContent =
+    `${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')}`;
+  document.getElementById('certNo').textContent =
+    `NO.${AXES.map(a=>axis10[a.id]).join('')}-${String(score).padStart(3,'0')}`;
+  document.getElementById('certAxes').innerHTML =
+    AXES.map(a=>`<span class="ca">${a.label.slice(0,1)}<b>${axis10[a.id]}</b></span>`).join('');
+
+  // 前回スコアとの比較（成長記録）
+  renderPrevCompare(rank, score);
+
+  // 答え合わせ（事前申告あり時のみ）
+  renderSelfCheck(rank);
+
+  // 分布での現在地
+  const top = renderDist(rank, score);
+
+  // レーダーチャート
+  document.getElementById('radarWrap').innerHTML = radarSVG(axis10);
+
+  // 軸バー
+  const rows = document.getElementById('axisRows');
+  rows.innerHTML = '';
+  AXES.forEach(a=>{
+    const v = axis10[a.id];
+    const cls = a.id===weak.id ? ' weak' : (a.id===strong.id ? ' strong' : '');
+    rows.insertAdjacentHTML('beforeend',
+      `<div class="axis-row${cls}"><span class="name">${a.label}${a.id===strong.id?' ◎':a.id===weak.id?' ▲':''}</span>
+       <div class="rail"><div class="fill" data-w="${v*10}"></div></div>
+       <span class="val">${v}/10</span></div>`);
+  });
+  setTimeout(()=>{ rows.querySelectorAll('.fill').forEach(f=>f.style.width = f.dataset.w+'%'); }, 350);
+
+  // 査定コメント
+  document.getElementById('diagText').innerHTML =
+    `<p>${rank.desc}</p><p>${STRONG_NOTE[strong.id]} 一方で、${WEAK_ADVICE[weak.id]}</p><p><strong>▶ 次のランクへ：</strong>${rank.next}</p>`;
+
+  // 専用プロンプト
+  document.getElementById('promptBox').textContent = buildPrompt();
+
+  // シェア
+  const topTag = top<=50 ? `・推定上位${top<10?top.toFixed(1):Math.round(top)}%` : '';
+  let shareText;
+  if(predicted && predicted !== rank.rank){
+    const overEst = rankOrder(predicted) > rankOrder(rank.rank);
+    shareText = `【AI活用レベル診断】\n予想：${predicted}級 → 現実：${rank.rank}級「${rank.title}」${overEst?'😇':'😳'}\n（スコア${score}/100${topTag}・${overEst?'過大評価でした':'自分を過小評価してた'}…）\n\nあなたは自分のランク、当てられる？▼\n${SITE_URL}\n#AI活用レベル診断`;
+  } else if(predicted){
+    shareText = `【AI活用レベル診断】\n予想：${predicted}級 → 現実：${rank.rank}級「${rank.title}」\nまさかのド的中（スコア${score}/100${topTag}）\n\nあなたは自分のランク、当てられる？▼\n${SITE_URL}\n#AI活用レベル診断`;
+  } else {
+    shareText = `【AI活用レベル診断】\n私のAI活用力は… ${rank.rank}級「${rank.title}」でした（スコア${score}/100${topTag}）\n\nあなたは何級？▼\n${SITE_URL}\n#AI活用レベル診断`;
+  }
+  document.getElementById('btnShare').href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`;
+  document.getElementById('btnLine').href = LINE_URL;
+}
+
+/* ランクの序列（0=E … 7=SSS） */
+function rankOrder(r){ return ['E','D','C','B','A','S','SS','SSS'].indexOf(r); }
+
+/* ================= 分布モデル ================= */
+/* 想定分布（ランクごとの占有率%・合計100） */
+const DIST_SHARE = {E:18, D:22, C:25, B:17, A:10, S:5, SS:2.2, SSS:0.8};
+
+/* スコアから「推定上位◯%」を算出（ランク帯内は線形補間） */
+function topPercent(score, rank){
+  const idx = RANKS.indexOf(rank);
+  const hi = idx===0 ? 100 : RANKS[idx-1].min - 1;
+  const lo = rank.min;
+  let cumAbove = 0;
+  for(let i=0;i<idx;i++) cumAbove += DIST_SHARE[RANKS[i].rank];
+  const frac = hi>lo ? (hi-score)/(hi-lo) : 0;
+  return Math.max(0.1, cumAbove + DIST_SHARE[rank.rank]*frac);
+}
+
+function renderDist(rank, score){
+  const top = topPercent(score, rank);
+  const topDisp = top<10 ? top.toFixed(1) : Math.round(top);
+  const hd = document.getElementById('distHeadline');
+  if(top<=50){
+    hd.innerHTML = `<div class="dh-big gold">推定 上位 ${topDisp}%</div><div class="dh-cap">AI活用者全体でのあなたの位置</div>`;
+  } else {
+    const g = Math.max(0.1, 100-top);
+    const growth = g<10 ? g.toFixed(1) : Math.round(g);
+    hd.innerHTML = `<div class="dh-big cyan">伸びしろ量 上位 ${growth}%</div><div class="dh-cap">つまり、ここから一番伸びる層です</div>`;
+  }
+  const maxShare = Math.max(...Object.values(DIST_SHARE));
+  const order = ['E','D','C','B','A','S','SS','SSS'];
+  document.getElementById('distChart').innerHTML = order.map((r,i)=>{
+    const share = DIST_SHARE[r];
+    const h = Math.max(4, Math.round(share/maxShare*100));
+    const me = r===rank.rank;
+    return `<div class="dist-col${me?' me':''}">
+      ${me?'<div class="dist-you">YOU▼</div>':''}
+      <div class="dist-bar" style="height:${h}%;animation-delay:${.1+i*.07}s"></div>
+      <div class="dist-rank">${r}</div>
+      <div class="dist-share">${share}%</div>
+    </div>`;
+  }).join('');
+  return top;
+}
+
+/* 前回結果の読み書き（プライベートモード等で使えない環境は黙って無効化） */
+function loadLast(){
+  try{ return JSON.parse(localStorage.getItem('ailc_last')||'null'); }catch(e){ return null; }
+}
+function saveLast(rank, score){
+  try{ localStorage.setItem('ailc_last', JSON.stringify({rank:rank.rank, score, at:Date.now()})); }catch(e){}
+}
+function renderPrevCompare(rank, score){
+  const wrap = document.getElementById('prevChipWrap');
+  const prev = loadLast();
+  if(prev && typeof prev.score==='number'){
+    const diff = score - prev.score;
+    const cls = diff>0 ? 'up' : diff<0 ? 'down' : 'same';
+    const label = diff>0 ? `前回 ${prev.rank}級 ${prev.score}点 → 今回 +${diff}点の成長！`
+              : diff<0 ? `前回 ${prev.rank}級 ${prev.score}点 → 今回 ${diff}点…調子悪い？`
+              : `前回と同スコア（${prev.score}点）。伸びしろは下の弱点にあり`;
+    wrap.innerHTML = `<span class="prev-chip ${cls}">${label}</span>`;
+  } else {
+    wrap.innerHTML = '';
+  }
+  saveLast(rank, score);
+}
+/* タイトル画面：前回の査定記録があれば表示 */
+(function(){
+  const prev = loadLast();
+  if(prev && prev.rank){
+    document.getElementById('lastResultWrap').innerHTML =
+      `<span class="last-result">前回の査定：${prev.rank}級 ${prev.score}点 — 記録更新に挑む</span>`;
+  }
+})();
+
+/* 答え合わせパネル */
+function renderSelfCheck(rank){
+  const panel = document.getElementById('selfCheckPanel');
+  if(!predicted){ panel.style.display = 'none'; return; }
+  panel.style.display = '';
+  const predEl = document.getElementById('scPred');
+  const actEl = document.getElementById('scActual');
+  predEl.textContent = predicted;
+  actEl.textContent = rank.rank;
+  const predRank = RANKS.find(r=>r.rank===predicted);
+  predEl.style.color = predRank.color==='grad' ? '#ffd75e' : predRank.color;
+  actEl.style.color = rank.color==='grad' ? '#ffd75e' : rank.color;
+  const gap = rankOrder(predicted) - rankOrder(rank.rank); // 正=過大評価
+  const v = document.getElementById('scVerdict');
+  const t = document.getElementById('scText');
+  if(gap >= 2){
+    v.className = 'sc-verdict over'; v.textContent = `判定：過大評価（${gap}ランク差）`;
+    t.innerHTML = `思っていたより<strong style="color:#ff8a8e">${gap}ランク下</strong>でした。でも落ち込む必要はありません。このギャップこそが伸びしろの正体です。下の弱点分析が、あなたの「思い込み」と「現実」の差を埋める地図になります。`;
+  } else if(gap === 1){
+    v.className = 'sc-verdict over'; v.textContent = '判定：やや過大評価';
+    t.innerHTML = `惜しい。自己認識はかなり正確ですが、<strong style="color:#ff8a8e">1ランクだけ背伸び</strong>していました。あと一歩で予想に現実が追いつきます。`;
+  } else if(gap === 0){
+    v.className = 'sc-verdict exact'; v.textContent = '判定：完全一致 — 自己認識マスター';
+    t.innerHTML = `<strong style="color:var(--gold-bright)">ド的中です。</strong>自分の現在地を正確に把握できる人は、次のランクに上がるのも速い。この診断で一番レアな結果かもしれません。`;
+  } else if(gap === -1){
+    v.className = 'sc-verdict under'; v.textContent = '判定：やや過小評価';
+    t.innerHTML = `あなたは自分が思っているより<strong style="color:var(--cyan)">1ランク上</strong>でした。謙遜せず、そのレベルの使い方をもっと堂々とやっていい段階です。`;
+  } else {
+    v.className = 'sc-verdict under'; v.textContent = `判定：大幅過小評価（${-gap}ランク差）`;
+    t.innerHTML = `謙遜が過ぎます。現実はあなたの予想より<strong style="color:var(--cyan)">${-gap}ランクも上</strong>。自分の実力に自覚がない人は、周囲との差にも気づいていないことが多い。武器を持っている自覚を持ちましょう。`;
+  }
+}
+
+function buildPrompt(){
+  const {score, rank, axis10, weak} = result;
+  const idx = RANKS.indexOf(rank);
+  const nextRank = idx>0 ? RANKS[idx-1] : rank;
+  const breakdown = AXES.map(a=>`${a.label} ${axis10[a.id]}/10`).join(' / ');
+  const goal = idx>0
+    ? `次のランク【${nextRank.rank}級「${nextRank.title}」】に上がるための`
+    : `このレベルを維持しつつ、AI活用を「人に教えられる資産」に変えるための`;
+  return `あなたは超一流のAI活用パーソナルコーチです。
+
+私は「AI活用レベル診断」を受けて、次の結果でした。
+・ランク：${rank.rank}級「${rank.title}」（スコア ${score}/100）
+・5軸の内訳：${breakdown}
+・最大の弱点と診断された軸：「${AXES.find(a=>a.id===weak.id).label}」
+
+依頼：
+まず、私の仕事内容・普段のAIの使い方・1日の流れを把握するための質問を【1問ずつ・合計5問】してください（一度に全部聞かないこと）。
+
+5問終わったら、私の回答と上の診断結果を踏まえて、${goal}「明日から2週間の実行プラン」を作ってください。
+
+プランの条件：
+・弱点軸「${AXES.find(a=>a.id===weak.id).label}」の強化を最優先にする
+・使うツール名、コピペで使えるプロンプト例、1日あたりの所要時間まで具体的に書く
+・私の実際の仕事に直結する内容にする（一般論は禁止）
+・最後に、2週間後に成長を確認するチェックリストを付ける
+
+それでは、1問目をどうぞ。`;
+}
+
+/* ============================================================
+   レーダーチャート（SVG）
+============================================================ */
+function radarSVG(axis10){
+  const cx=130, cy=118, R=88, N=5;
+  const pt = (i,r)=>{
+    const a = -Math.PI/2 + i*2*Math.PI/N;
+    return [cx + r*Math.cos(a), cy + r*Math.sin(a)];
+  };
+  const ring = f => Array.from({length:N},(_,i)=>pt(i,R*f).map(v=>v.toFixed(1)).join(',')).join(' ');
+  const vals = AXES.map((a,i)=>pt(i, R*Math.max(.06,axis10[a.id]/10)).map(v=>v.toFixed(1)).join(',')).join(' ');
+  const labels = AXES.map((a,i)=>{
+    const [x,y] = pt(i,R+20);
+    return `<text x="${x.toFixed(1)}" y="${(y+4).toFixed(1)}" text-anchor="middle" font-size="11" fill="#8b94a8" font-family="var(--body)">${a.label}</text>`;
+  }).join('');
+  const spokes = AXES.map((_,i)=>{
+    const [x,y]=pt(i,R);
+    return `<line x1="${cx}" y1="${cy}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="rgba(240,177,62,.14)" stroke-width="1"/>`;
+  }).join('');
+  return `<svg width="260" height="236" viewBox="0 0 260 236">
+    ${[1,.75,.5,.25].map(f=>`<polygon points="${ring(f)}" fill="none" stroke="rgba(240,177,62,${f===1?.3:.12})" stroke-width="1"/>`).join('')}
+    ${spokes}
+    <polygon points="${vals}" fill="rgba(240,177,62,.22)" stroke="var(--gold-bright)" stroke-width="2" stroke-linejoin="round" style="filter:drop-shadow(0 0 8px rgba(255,215,94,.45))">
+      <animate attributeName="opacity" from="0" to="1" dur=".6s" fill="freeze"/>
+    </polygon>
+    ${AXES.map((a,i)=>{const [x,y]=pt(i,R*Math.max(.06,axis10[a.id]/10));return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="3.5" fill="var(--gold-bright)"/>`}).join('')}
+    ${labels}
+  </svg>`;
+}
+
+/* ============================================================
+   ユーティリティ
+============================================================ */
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2600);
+}
+function copyPrompt(){
+  const text = document.getElementById('promptBox').textContent;
+  // 1) 同期コピー（ユーザー操作内なら最も確実）
+  if(syncCopy(text)){ showToast('コピーしました！AIに貼り付けてください'); return; }
+  // 2) 非同期クリップボードAPI
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text)
+      .then(()=>showToast('コピーしました！AIに貼り付けてください'))
+      .catch(()=>manualSelect());
+  } else manualSelect();
+}
+function syncCopy(text){
+  const ta = document.createElement('textarea');
+  ta.value = text; ta.style.position='fixed'; ta.style.opacity='0';
+  ta.setAttribute('readonly','');
+  document.body.appendChild(ta);
+  ta.select(); ta.setSelectionRange(0, text.length);
+  let ok = false;
+  try{ ok = document.execCommand('copy'); }catch(e){ ok = false; }
+  document.body.removeChild(ta);
+  return ok;
+}
+function manualSelect(){
+  const box = document.getElementById('promptBox');
+  const range = document.createRange();
+  range.selectNodeContents(box);
+  const sel = window.getSelection();
+  sel.removeAllRanges(); sel.addRange(range);
+  showToast('自動コピーできませんでした。選択済みなので長押し→コピーしてください');
+}
+function confetti(){
+  const colors = ['#ffd75e','#f0b13e','#5ad7d0','#ece5d3','#e5484d'];
+  for(let i=0;i<60;i++){
+    const c = document.createElement('div');
+    c.className = 'confetti';
+    const s = 5+Math.random()*7;
+    c.style.cssText = `left:${Math.random()*100}vw;width:${s}px;height:${s*.6}px;background:${colors[i%colors.length]};animation-duration:${2.2+Math.random()*2.4}s;animation-delay:${Math.random()*1.2}s;border-radius:1px;`;
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(), 6000);
+  }
+}
+</script>
+</body>
+</html>

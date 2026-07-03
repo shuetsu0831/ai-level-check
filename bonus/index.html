@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>【特典】レベルアップ・プロンプト全書｜AI活用レベル診断</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎁</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#06080f;--panel:#0d1220;--panel2:#111830;
+  --line:rgba(240,177,62,.22);--gold:#f0b13e;--gold-bright:#ffd75e;
+  --paper:#ece5d3;--dim:#8b94a8;--red:#e5484d;--cyan:#5ad7d0;
+  --disp:'DotGothic16',monospace;--body:'Zen Kaku Gothic New',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{background:var(--ink);color:var(--paper);font-family:var(--body);line-height:1.8;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse 80% 50% at 50% -10%,rgba(240,177,62,.10),transparent 60%)}
+body::after{content:'';position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.5;
+  background:repeating-linear-gradient(0deg,transparent 0 2px,rgba(0,0,0,.22) 2px 4px)}
+.wrap{position:relative;z-index:2;max-width:640px;margin:0 auto;padding:0 20px 80px}
+header{text-align:center;padding:56px 0 34px}
+.sys-label{font-family:var(--disp);font-size:11px;letter-spacing:.4em;color:var(--gold);margin-bottom:16px}
+h1{font-family:var(--disp);font-size:clamp(26px,7vw,38px);line-height:1.4;text-shadow:0 0 30px rgba(240,177,62,.35)}
+h1 .g{color:var(--gold-bright)}
+.head-sub{font-size:13px;color:var(--dim);letter-spacing:.14em;margin-top:10px}
+.howto{
+  background:linear-gradient(180deg,var(--panel2),var(--panel));
+  border:1px solid var(--line);border-radius:16px;padding:22px;margin-bottom:26px;
+}
+.howto h2{font-family:var(--disp);font-size:13px;letter-spacing:.26em;color:var(--gold);margin-bottom:14px}
+.howto ol{padding-left:1.4em;font-size:14px;color:#cdd3df}
+.howto li{margin-bottom:6px}
+.howto strong{color:var(--gold-bright)}
+.howto .note{font-size:12px;color:var(--dim);margin-top:10px;border-left:2px solid var(--line);padding-left:10px}
+.jump{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:36px}
+.jump a{
+  font-family:var(--disp);font-size:14px;color:var(--paper);text-decoration:none;
+  border:1px solid var(--line);border-radius:8px;padding:8px 13px;background:var(--panel);
+  transition:border-color .15s,background .15s;
+}
+.jump a:hover{border-color:var(--gold);background:var(--panel2)}
+.part-label{
+  font-family:var(--disp);font-size:15px;letter-spacing:.3em;color:var(--cyan);
+  text-align:center;margin:46px 0 20px;display:flex;align-items:center;gap:14px;
+}
+.part-label::before,.part-label::after{content:'';flex:1;height:1px;background:rgba(90,215,208,.25)}
+section.rank{
+  background:linear-gradient(180deg,var(--panel2),var(--panel));
+  border:1px solid var(--line);border-radius:16px;padding:24px 20px;margin-bottom:22px;
+  scroll-margin-top:20px;position:relative;overflow:hidden;
+}
+section.rank::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,215,94,.5),transparent)}
+.rank-head{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.rank-badge{
+  font-family:var(--disp);font-size:26px;min-width:64px;text-align:center;
+  border:2px solid;border-radius:10px;padding:8px 6px 5px;line-height:1;
+}
+.rank-head .titles .t1{font-size:17px;font-weight:900}
+.rank-head .titles .t2{font-size:11px;color:var(--dim);letter-spacing:.1em}
+.rank-desc{font-size:13.5px;color:#cdd3df;margin-bottom:6px}
+.rank-desc b{color:var(--gold-bright)}
+.wall{font-size:13px;color:#ffb1b4;margin-bottom:16px}
+.wall::before{content:'🧗 次のランクへの壁：';color:#ff8a8e;font-weight:700}
+.p-label{font-family:var(--disp);font-size:12px;letter-spacing:.2em;color:var(--cyan);margin-bottom:8px}
+pre.prompt{
+  background:#080b14;border:1px solid rgba(90,215,208,.25);border-radius:10px;
+  padding:16px;font-size:12px;line-height:1.75;color:#a8e8e4;
+  white-space:pre-wrap;word-break:break-word;
+  font-family:ui-monospace,'SF Mono',Menlo,monospace;margin-bottom:12px;
+  max-height:340px;overflow-y:auto;
+}
+.btn-copy{
+  width:100%;font-family:var(--body);font-size:14px;font-weight:700;letter-spacing:.1em;
+  color:var(--ink);background:linear-gradient(180deg,#7fe3dd,var(--cyan));
+  border:none;border-radius:10px;padding:14px;cursor:pointer;
+  box-shadow:0 4px 20px rgba(90,215,208,.25);transition:transform .12s;margin-bottom:16px;
+}
+.btn-copy:active{transform:scale(.97)}
+details.check{border:1px dashed rgba(255,255,255,.15);border-radius:10px;padding:12px 16px}
+details.check summary{
+  cursor:pointer;font-size:13px;font-weight:700;color:var(--gold);letter-spacing:.06em;list-style:none;
+}
+details.check summary::before{content:'▸ ';font-family:var(--disp)}
+details.check[open] summary::before{content:'▾ '}
+details.check ul{list-style:none;margin-top:10px;font-size:13px;color:#cdd3df}
+details.check li{margin-bottom:6px;padding-left:1.6em;position:relative}
+details.check li::before{content:'☐';position:absolute;left:0;color:var(--cyan)}
+.bonus section.rank::before{background:linear-gradient(90deg,transparent,rgba(90,215,208,.6),transparent)}
+.bonus .rank-head .titles .t1{color:var(--cyan)}
+footer{
+  text-align:center;margin-top:56px;padding-top:30px;border-top:1px dashed var(--line);
+}
+footer .fin{font-size:14px;color:#cdd3df;margin-bottom:18px;line-height:2}
+footer .fin strong{color:var(--gold-bright)}
+.btn-retest{
+  display:inline-block;font-family:var(--disp);font-size:16px;letter-spacing:.14em;
+  color:var(--ink);background:linear-gradient(180deg,var(--gold-bright),var(--gold));
+  border-radius:12px;padding:16px 34px;text-decoration:none;
+  box-shadow:0 8px 30px rgba(240,177,62,.35);transition:transform .12s;
+}
+.btn-retest:active{transform:scale(.97)}
+.credit{margin-top:26px;font-size:11px;color:#5b6374;letter-spacing:.1em}
+.toast{
+  position:fixed;left:50%;bottom:34px;transform:translate(-50%,20px);
+  background:var(--gold-bright);color:var(--ink);font-size:13px;font-weight:700;
+  padding:11px 26px;border-radius:99px;opacity:0;pointer-events:none;
+  transition:all .3s cubic-bezier(.22,1,.36,1);z-index:50;
+  box-shadow:0 8px 30px rgba(0,0,0,.4);
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="sys-label">▸ SECRET REWARD — 限定特典</div>
+  <h1>レベルアップ<br><span class="g">プロンプト全書</span></h1>
+  <p class="head-sub">全8ランク対応＋弱点軸別ボーナス5本</p>
+</header>
+
+<div class="howto">
+  <h2>▸ この全書の使い方（3ステップ）</h2>
+  <ol>
+    <li><strong>自分のランクの章</strong>を開く（下のボタンでジャンプ）</li>
+    <li>プロンプトを<strong>コピーしてChatGPT / Claude / Geminiに貼る</strong></li>
+    <li>AIからの<strong>5つの質問に答える</strong> → あなた専用の2週間計画が完成</li>
+  </ol>
+  <p class="note">ポイント：プロンプトは「貼って終わり」ではなく、AIとの対話がセットです。質問に具体的に答えるほど、返ってくる計画の精度が上がります。</p>
+</div>
+
+<nav class="jump">
+  <a href="#rank-e">E</a><a href="#rank-d">D</a><a href="#rank-c">C</a><a href="#rank-b">B</a>
+  <a href="#rank-a">A</a><a href="#rank-s">S</a><a href="#rank-ss">SS</a><a href="#rank-sss">SSS</a>
+  <a href="#bonus">弱点軸別ボーナス</a>
+</nav>
+
+<div class="part-label">PART 1 — ランク別プロンプト</div>
+
+<!-- ============ E ============ -->
+<section class="rank" id="rank-e">
+  <div class="rank-head">
+    <div class="rank-badge" style="color:#6b7280;border-color:#6b7280">E</div>
+    <div class="titles"><div class="t1">「AI鎖国中」→ D級へ</div><div class="t2">AI ISOLATIONIST</div></div>
+  </div>
+  <p class="rank-desc"><b>このランクの人：</b>まだAIをほとんど触ったことがない。何ができるのかもよく分からない。</p>
+  <p class="wall">知識ではなく「最初の接触」。1日1回触るだけでD級には到達します。</p>
+  <div class="p-label">▸ COPY &amp; PASTE PROMPT</div>
+  <pre class="prompt">あなたは「AIはじめの一歩コーチ」です。相手はAIをほぼ使ったことがない初心者です。
+専門用語を使わず、中学生にもわかる言葉で話してください。
+
+まず、私の生活や仕事を知るための質問を【1問ずつ・合計5問】してください。
+（一度に全部聞かないでください。私が答えたら次の質問に進んでください）
+
+5問終わったら、私の回答をもとに、
+「明日から14日間、1日1回・5分だけAIに話しかけるメニュー」を作ってください。
+
+条件：
+・1日目は「今晩の夕飯の献立を考えて」レベルの簡単なものから始める
+・日を追うごとに少しずつ、私の生活や仕事に役立つお願いに進化させる
+・各日「AIへの話しかけ方の例文」をそのままコピペできる形で書く
+・最後に「14日後にできるようになっていること」を教えてください
+
+それでは、1問目をどうぞ。</pre>
+  <button class="btn-copy" onclick="copyPrompt(this)">📋 このプロンプトをコピー</button>
+  <details class="check"><summary>2週間チェックリスト</summary><ul>
+    <li>AIのアプリまたはサイトをスマホ/PCで開ける状態にした</li>
+    <li>1日1回、なんでもいいのでAIに話しかけた（連続7日）</li>
+    <li>生活のこと（献立・買い物・調べもの）をAIに相談した</li>
+    <li>仕事や勉強のことを1回AIに相談した</li>
+    <li>「AIって意外と使える」と思った瞬間が1回以上あった</li>
+  </ul></details>
+</section>
+
+<!-- ============ D ============ -->
+<section class="rank" id="rank-d">
+  <div class="rank-head">
+    <div class="rank-badge" style="color:#9aa4b2;border-color:#9aa4b2">D</div>
+    <div class="titles"><div class="t1">「AI観光客」→ C級へ</div><div class="t2">AI TOURIST</div></div>
+  </div>
+  <p class="rank-desc"><b>このランクの人：</b>話題になったときに触ったことはある。でも日常には入っていない。</p>
+  <p class="wall">「たまに」を「毎日」に変える習慣化。意志ではなく仕組みで解決します。</p>
+  <div class="p-label">▸ COPY &amp; PASTE PROMPT</div>
+  <pre class="prompt">あなたは「AI習慣化トレーナー」です。
+私はAIを数回触ったことはありますが、日常的には使えていません。
+
+まず、私の1日の流れと仕事内容を知るための質問を【1問ずつ・合計5問】してください。
+
+5問終わったら、私の回答をもとに、
+「私の毎日のどのタイミングに、どんなAI習慣を差し込むか」を設計してください。
+
+条件：
+・意志力に頼らない設計にする（既存の習慣にくっつける「ながら化」で）
+・朝・昼・夜のどこか1箇所、必ず毎日AIに触れるトリガーを決める
+・そのタイミングで使う「定番の話しかけ方」を3パターン、コピペできる形で書く
+・2週間の習慣化カレンダー（何日目に何をするか）を表で作る
+・三日坊主になりかけたときの「復帰ルール」も決めてください
+
+それでは、1問目をどうぞ。</pre>
+  <button class="btn-copy" onclick="copyPrompt(this)">📋 このプロンプトをコピー</button>
+  <details class="check"><summary>2週間チェックリスト</summary><ul>
+    <li>毎日AIを開くトリガー（朝のコーヒー後など）を1つ決めた</li>
+    <li>14日中10日以上、AIに話しかけた</li>
+    <li>定番の話しかけ方を3つ持っている</li>
+    <li>調べものを検索ではなくAIに聞くことが増えた</li>
+    <li>「AIがない日はちょっと不便」と感じ始めた</li>
+  </ul></details>
+</section>
+
+<!-- ============ C ============ -->
+<section class="rank" id="rank-c">
+  <div class="rank-head">
+    <div class="rank-badge" style="color:#d0a878;border-color:#d0a878">C</div>
+    <div class="titles"><div class="t1">「AIおしゃべり勢」→ B級へ</div><div class="t2">AI CASUAL TALKER</div></div>
+  </div>
+  <p class="rank-desc"><b>このランクの人：</b>AIには毎週触れている。でも使い方は「検索のちょっと賢い版」止まり。</p>
+  <p class="wall">雑談・調べものから「仕事の実タスクの丸投げ」への転換。ここがAI活用の本当のスタートラインです。</p>
+  <div class="p-label">▸ COPY &amp; PASTE PROMPT</div>
+  <pre class="prompt">あなたは「仕事丸投げ設計士」です。
+私はAIと日常会話や調べものはしていますが、仕事のタスクを任せたことがほぼありません。
+
+まず、私の仕事内容と「毎週やっている面倒な作業」を知るための質問を
+【1問ずつ・合計5問】してください。
+
+5問終わったら、私の回答をもとに、
+「私の仕事の中で、今すぐAIに丸投げできるタスクTOP5」を選んでください。
+
+条件：
+・TOP5は「丸投げしやすい順」に並べる（成功体験を先に作るため）
+・各タスクについて、そのままコピペで使える「依頼プロンプト」を書く
+・依頼プロンプトには、私が埋めるだけの穴埋め箇所【　】を作る
+・最初の1つは今日中に試せるものにする
+・2週間で5つ全部を1回ずつ試すスケジュールも組んでください
+
+それでは、1問目をどうぞ。</pre>
+  <button class="btn-copy" onclick="copyPrompt(this)">📋 このプロンプトをコピー</button>
+  <details class="check"><summary>2週間チェックリスト</summary><ul>
+    <li>仕事のタスクを1つ、初めてAIに丸投げした</li>
+    <li>メール・文章の下書きをAIに書かせた</li>
+    <li>議事録・要約系の作業をAIにやらせた</li>
+    <li>AIの出力をそのまま使えた経験が1回以上あった</li>
+    <li>「これもAIでできるかも」と思う癖がついた</li>
+  </ul></details>
+</section>
+
+<!-- ============ B ============ -->
+<section class="rank" id="rank-b">
+  <div class="rank-head">
+    <div class="rank-badge" style="color:#6ea8ff;border-color:#6ea8ff">B</div>
+    <div class="titles"><div class="t1">「AI相棒持ち」→ A級へ</div><div class="t2">AI PARTNER USER</div></div>
+  </div>
+  <p class="rank-desc"><b>このランクの人：</b>AIは毎日の相棒。でも「会話」で終わっていて、成果物への変換率が低い。</p>
+  <p class="wall">会話で終わらせず、必ず「成果物」まで作らせて終えること。このルール1つで世界が変わります。</p>
+  <div class="p-label">▸ COPY &amp; PASTE PROMPT</div>
+  <pre class="prompt">あなたは「成果物変換コーチ」です。
+私はAIと毎日会話していますが、その会話が資料・文書・データなどの
+「形になったアウトプット」につながっていません。
+
+まず、私の仕事と「最近AIに相談したけど会話で終わったこと」を知るための質問を
+【1問ずつ・合計5問】してください。
+
+5問終わったら、私の回答をもとに、
+「私のAI会話を成果物に変換する型」を作ってください。
+
+条件：
+・私がよくする会話パターンを3つに分類し、それぞれ「最終成果物の形」を定義する
+　（例：相談→意思決定メモ、アイデア出し→企画書1枚、質問→手順書）
+・各パターンについて「会話の最後に貼るだけで成果物化できる締めプロンプト」を書く
+・背景・役割・出力形式を指定する「3点セット指示」の私専用テンプレートを作る
+・2週間で「会話→成果物」変換を10回行う実践プランを組んでください
+
+それでは、1問目をどうぞ。</pre>
+  <button class="btn-copy" onclick="copyPrompt(this)">📋 このプロンプトをコピー</button>
+  <details class="check"><summary>2週間チェックリスト</summary><ul>
+    <li>AIとの会話を「成果物の形」で終える癖をつけた（10回以上）</li>
+    <li>背景・役割・出力形式の3点セットで依頼した</li>
+    <li>AIの成果物をほぼそのまま仕事で使った</li>
+    <li>資料・企画書・文書のどれかをAIで完成させた</li>
+    <li>「AIに作らせた」と言わなければ気づかれないレベルの物が1つできた</li>
+  </ul></details>
+</section>
+
+<!-- ============ A ============ -->
+<section class="rank" id="rank-a">
+  <div class="rank-head">
+    <div class="rank-badge" style="color:#6ee7a8;border-color:#6ee7a8">A</div>
+    <div class="titles"><div class="t1">「AI仕事人」→ S級へ</div><div class="t2">AI PRACTITIONER</div></div>
+  </div>
+  <p class="rank-desc"><b>このランクの人：</b>AIは仕事の武器。成果物も出せている。ただ、毎回ゼロから指示を組み立てている。</p>
+  <p class="wall">「単発の上手さ」を「型」に変えて資産化すること。うまくいったプロンプトを使い捨てにしない。</p>
+  <div class="p-label">▸ COPY &amp; PASTE PROMPT</div>
+  <pre class="prompt">あなたは「プロンプト資産化コンサルタント」です。
+私はAIで仕事の成果物を作れていますが、毎回ゼロから指示を書いており、
+うまくいったやり方が資産として貯まっていません。
+
+まず、私の仕事内容と「AIによく頼む作業TOP3」を知るための質問を
+【1問ずつ・合計5問】してください。
+
+5問終わったら、私の回答をもとに、
+「私専用のプロンプト資産管理システム」を設計してください。
+
+条件：
+・よく頼む作業TOP3それぞれについて、再利用できる「マスタープロンプト」を作る
+　（穴埋め箇所【　】方式で、毎回5秒で使い回せる形に）
+・マスタープロンプトには、私の仕事の背景情報を最初から埋め込む
+・プロンプトの保存場所・命名ルール・見直しサイクルを決める
+・「新しくうまくいったプロンプトを資産に追加する手順」も1分でできる形にする
+・2週間の移行プラン（何日目にどの作業を型化するか）を組んでください
+
+それでは、1問目をどうぞ。</pre>
+  <button class="btn-copy" onclick="copyPrompt(this)">📋 このプロンプトをコピー</button>
+  <details class="check"><summary>2週間チェックリスト</summary><ul>
+    <li>うまくいったプロンプトの保存場所を1つ決めた</li>
+    <li>マスタープロンプトを3本作った</li>
+    <li>自分の資料・データをAIに読み込ませて作業させた</li>
+    <li>同じ指示を2回ゼロから書くことがなくなった</li>
+    <li>定型作業の所要時間が半分以下になったものが1つある</li>
+  </ul></details>
+</section>
+
+<!-- ============ S ============ -->
+<section class="rank" id="rank-s">
+  <div class="rank-head">
+    <div class="rank-badge" style="color:#7fd7ff;border-color:#7fd7ff">S</div>
+    <div class="titles"><div class="t1">「AI指揮官」→ SS級へ</div><div class="t2">AI COMMANDER</div></div>
+  </div>
+  <p class="rank-desc"><b>このランクの人：</b>指示は的確、型も持っている。単発作業では上位数%。ただ、まだ「自分が都度動かしている」。</p>
+  <p class="wall">「上手に使う」から「仕組みで回す」へ。複数工程をつないだワークフロー化が鍵です。</p>
+  <div class="p-label">▸ COPY &amp; PASTE PROMPT</div>
+  <pre class="prompt">あなたは「AIワークフロー設計士」です。
+私はAIを使いこなせていますが、作業は毎回自分がAIを起動して指示する
+「手動運転」です。工程をつないだ仕組みにできていません。
+
+まず、私の業務の全体像と「複数ステップからなる定例業務」を知るための質問を
+【1問ずつ・合計5問】してください。
+
+5問終わったら、私の回答をもとに、
+「私の業務のAIワークフロー化計画」を作ってください。
+
+条件：
+・定例業務を1つ選び、工程を分解して「AI化できる工程」「人間が判断する工程」に色分けする
+・AI化できる工程を数珠つなぎにした「一連のプロンプトチェーン」を設計する
+　（工程1の出力を工程2の入力に渡す形で、各工程のプロンプトを全部書く）
+・可能なら、Claude Code・GPTs・API・自動化ツール（Zapier等）など
+　「自分が毎回指示しなくても回る」ための次の一手を提案する
+・2週間でワークフロー1本を完成させる実装プランを組んでください
+
+それでは、1問目をどうぞ。</pre>
+  <button class="btn-copy" onclick="copyPrompt(this)">📋 このプロンプトをコピー</button>
+  <details class="check"><summary>2週間チェックリスト</summary><ul>
+    <li>定例業務を1つ、工程分解した</li>
+    <li>プロンプトチェーン（多段階の連携プロンプト）を1本作った</li>
+    <li>業務フォルダや過去データをAIが常時参照できる状態を試した</li>
+    <li>自動化ツールまたはAIエージェントを1つ触ってみた</li>
+    <li>「自分が指示しなくても進む」工程が1つでも生まれた</li>
+  </ul></details>
+</section>
+
+<!-- ============ SS ============ -->
+<section class="rank" id="rank-ss">
+  <div class="rank-head">
+    <div class="rank-badge" style="color:#ffd75e;border-color:#ffd75e">SS</div>
+    <div class="titles"><div class="t1">「AI経営者」→ SSS級へ</div><div class="t2">AI ORCHESTRATOR</div></div>
+  </div>
+  <p class="rank-desc"><b>このランクの人：</b>AIをチームとして使い、仕組みで成果を出している。一人で会社レベルのアウトプット。</p>
+  <p class="wall">最後の壁は「稼働時間」。自分が寝ている間もAIが動いている状態を作れるか。</p>
+  <div class="p-label">▸ COPY &amp; PASTE PROMPT</div>
+  <pre class="prompt">あなたは「AI自動化アーキテクト」です。
+私はAIのワークフロー化までできていますが、まだ「自分が起点」です。
+自分が動いていない時間（夜間・移動中・週末）にもAIが価値を生む
+仕組みを作りたい。
+
+まず、私の事業・業務と現在のAI活用状況を知るための質問を
+【1問ずつ・合計5問】してください。
+
+5問終わったら、私の回答をもとに、
+「無人稼働AIシステムの設計図」を作ってください。
+
+条件：
+・「定期実行できる業務」（日次レポート、リサーチ、下書き生成、監視など）を洗い出す
+・優先度の高い1つについて、具体的な実装方法を提案する
+　（Claude Codeの定期実行、cron、API連携、エージェントツールなど選択肢と難易度つきで）
+・「朝起きたら成果物ができている」状態の1日の流れを描く
+・暴走・誤出力へのセーフティ（人間のチェックポイント）も設計に入れる
+・2週間で最初の無人稼働を1本動かす実装プランを組んでください
+
+それでは、1問目をどうぞ。</pre>
+  <button class="btn-copy" onclick="copyPrompt(this)">📋 このプロンプトをコピー</button>
+  <details class="check"><summary>2週間チェックリスト</summary><ul>
+    <li>定期実行に向く業務を3つ以上洗い出した</li>
+    <li>夜間・不在時に動くAI処理を1本実装した</li>
+    <li>「朝起きたら結果ができている」体験を1回した</li>
+    <li>AIの出力を人間がチェックする関門を設計した</li>
+    <li>自分の稼働時間と成果量の相関が崩れ始めた</li>
+  </ul></details>
+</section>
+
+<!-- ============ SSS ============ -->
+<section class="rank" id="rank-sss">
+  <div class="rank-head">
+    <div class="rank-badge" style="color:#ffd75e;border-color:#ffd75e;background:linear-gradient(135deg,rgba(255,215,94,.15),rgba(90,215,208,.15))">SSS</div>
+    <div class="titles"><div class="t1">「人機一体」— カンスト後の世界</div><div class="t2">AI-HUMAN SINGULARITY</div></div>
+  </div>
+  <p class="rank-desc"><b>このランクの人：</b>もはやAIとの境界が曖昧。ここから先は「自分が上がる」より「資産に変える」フェーズ。</p>
+  <p class="wall">活用ノウハウを「人に教えられる資産」に変換し、影響力と事業につなげる。</p>
+  <div class="p-label">▸ COPY &amp; PASTE PROMPT</div>
+  <pre class="prompt">あなたは「AI発信プロデューサー」です。
+私はAI活用の最上位層にいます。ここからは自分の活用ノウハウを
+「人に教えられる資産」に変換し、影響力と事業につなげたい。
+
+まず、私のAI活用の全体像と実績、発信の現状を知るための質問を
+【1問ずつ・合計5問】してください。
+
+5問終わったら、私の回答をもとに、
+「AI活用ノウハウの資産化・発信戦略」を作ってください。
+
+条件：
+・私の活用法の中で「他の人が一番驚く・真似したがるもの」を特定する
+・それをコンテンツ化する形式（X投稿、note、動画、テンプレ配布など）と
+　最初の10本のネタリストを作る
+・「教える」ことを事業価値（採用・受注・商品）につなげる導線を設計する
+・2週間で最初の発信3本を出すプランを組んでください
+
+それでは、1問目をどうぞ。</pre>
+  <button class="btn-copy" onclick="copyPrompt(this)">📋 このプロンプトをコピー</button>
+  <details class="check"><summary>2週間チェックリスト</summary><ul>
+    <li>自分の活用ノウハウを1つ、人に教えられる形に言語化した</li>
+    <li>発信を3本出した</li>
+    <li>誰かから「やり方を教えて」と言われた</li>
+    <li>自分のAI活用が「コンテンツ資産」になり始めた</li>
+    <li>次に引き上げる人（チーム・後輩・フォロワー）を決めた</li>
+  </ul></details>
+</section>
+
+<div class="bonus" id="bonus">
+<div class="part-label">PART 2 — 弱点軸別ボーナス</div>
+
+<section class="rank">
+  <div class="rank-head">
+    <div class="rank-badge" style="color:var(--cyan);border-color:var(--cyan);font-size:15px">頻度</div>
+    <div class="titles"><div class="t1">「頻度・習慣」が弱点の人へ</div><div class="t2">HABIT BUILDER</div></div>
+  </div>
+  <pre class="prompt">あなたは行動科学に詳しい習慣コーチです。
+私はAIを使う頻度が低いのが課題です。
+
+私の平日の起床から就寝までの流れを聞いた上で（質問は3つまで）、
+既存の習慣にAI利用をくっつける「if-thenプラン」を3つ作ってください。
+例：「朝コーヒーを淹れたら、飲みながらAIに今日の段取りを聞く」
+それぞれに、そのタイミング専用のコピペ用プロンプトを付けてください。</pre>
+  <button class="btn-copy" onclick="copyPrompt(this)">📋 このプロンプトをコピー</button>
+</section>
+
+<section class="rank">
+  <div class="rank-head">
+    <div class="rank-badge" style="color:var(--cyan);border-color:var(--cyan);font-size:15px">用途</div>
+    <div class="titles"><div class="t1">「用途の広さ」が弱点の人へ</div><div class="t2">USE-CASE EXPANDER</div></div>
+  </div>
+  <pre class="prompt">あなたはAI活用の可能性を広げる専門家です。
+私はAIを特定の用途でしか使えていません。
+
+まず私の仕事内容と現在のAIの使い方を聞いてください（質問は3つまで）。
+その後、私の業務を10個に棚卸しして、それぞれに
+「AIをこう使える」という具体例とコピペ用プロンプトを1本ずつ付けた
+【AI適用マップ】を表で作ってください。
+「これはAIには無理そう」と私が思っていそうな業務ほど優先してください。</pre>
+  <button class="btn-copy" onclick="copyPrompt(this)">📋 このプロンプトをコピー</button>
+</section>
+
+<section class="rank">
+  <div class="rank-head">
+    <div class="rank-badge" style="color:var(--cyan);border-color:var(--cyan);font-size:15px">指示</div>
+    <div class="titles"><div class="t1">「指示力」が弱点の人へ</div><div class="t2">PROMPT DOJO</div></div>
+  </div>
+  <pre class="prompt">あなたはプロンプト添削の専門家です。
+私はAIへの指示が雑で、期待する答えが返ってこないことが多いです。
+
+これから私が「普段AIに送っている指示文」を貼ります。
+それを以下の観点で添削してください。
+①背景情報は足りているか ②役割を与えているか ③出力形式を指定しているか
+④良い例・悪い例を見せているか ⑤ゴールが明確か
+
+添削後、修正版プロンプトと「なぜそう直したか」の解説をください。
+このやりとりを3往復繰り返して、私の指示力を鍛えてください。
+では、1本目を貼ります：</pre>
+  <button class="btn-copy" onclick="copyPrompt(this)">📋 このプロンプトをコピー</button>
+</section>
+
+<section class="rank">
+  <div class="rank-head">
+    <div class="rank-badge" style="color:var(--cyan);border-color:var(--cyan);font-size:15px">仕組</div>
+    <div class="titles"><div class="t1">「仕組み化」が弱点の人へ</div><div class="t2">SYSTEM DESIGNER</div></div>
+  </div>
+  <pre class="prompt">あなたは業務効率化コンサルタントです。
+私は毎回ゼロからAIに指示を書いており、繰り返し作業が仕組み化できていません。
+
+まず「私が週に2回以上やっている作業」を聞き出してください（質問は3つまで）。
+その後、繰り返し頻度×所要時間で優先順位をつけ、上位3つについて
+穴埋め式【　】のテンプレートプロンプトを作ってください。
+テンプレは「開いて、埋めて、送るだけ」の完成形にしてください。
+保存場所と使い回しの運用ルールも提案してください。</pre>
+  <button class="btn-copy" onclick="copyPrompt(this)">📋 このプロンプトをコピー</button>
+</section>
+
+<section class="rank">
+  <div class="rank-head">
+    <div class="rank-badge" style="color:var(--cyan);border-color:var(--cyan);font-size:15px">成果</div>
+    <div class="titles"><div class="t1">「成果直結」が弱点の人へ</div><div class="t2">OUTPUT CONVERTER</div></div>
+  </div>
+  <pre class="prompt">あなたは成果化コーチです。
+私はAIとよく会話しますが、会話が成果物や時間短縮につながっていません。
+
+まず私の仕事と、最近AIとした会話の内容を聞いてください（質問は3つまで）。
+その後、私に「会話終了時の3つの出口」を設計してください。
+①文書化の出口（会話→どんな文書に変換するか）
+②行動の出口（会話→今日やる1アクションに変換）
+③資産の出口（会話→再利用できる知見メモに変換）
+それぞれ、会話の最後に貼るだけの「締めプロンプト」を作ってください。</pre>
+  <button class="btn-copy" onclick="copyPrompt(this)">📋 このプロンプトをコピー</button>
+</section>
+</div>
+
+<footer>
+  <p class="fin">レベルアップの最短ルートは「知る」ではなく<strong>「2週間やる」</strong>です。<br>2週間後、もう一度診断を受けてみてください。<br>スコアが上がっていたら、査定証のスクショとともにXでシェアを。</p>
+  <a class="btn-retest" href="../">▶ もう一度診断する</a>
+  <p class="credit">発行：コンドウハルキ（X: @halukik_0520）</p>
+</footer>
+
+</div>
+<div class="toast" id="toast">コピーしました！AIに貼り付けてください</div>
+
+<script>
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2600);
+}
+function copyPrompt(btn){
+  const text = btn.parentElement.querySelector('pre.prompt').textContent;
+  if(syncCopy(text)){ showToast('コピーしました！AIに貼り付けてください'); return; }
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text)
+      .then(()=>showToast('コピーしました！AIに貼り付けてください'))
+      .catch(()=>manualSelect(btn));
+  } else manualSelect(btn);
+}
+function syncCopy(text){
+  const ta = document.createElement('textarea');
+  ta.value = text; ta.style.position='fixed'; ta.style.opacity='0';
+  ta.setAttribute('readonly','');
+  document.body.appendChild(ta);
+  ta.select(); ta.setSelectionRange(0, text.length);
+  let ok = false;
+  try{ ok = document.execCommand('copy'); }catch(e){ ok = false; }
+  document.body.removeChild(ta);
+  return ok;
+}
+function manualSelect(btn){
+  const box = btn.parentElement.querySelector('pre.prompt');
+  const range = document.createRange();
+  range.selectNodeContents(box);
+  const sel = window.getSelection();
+  sel.removeAllRanges(); sel.addRange(range);
+  showToast('自動コピーできませんでした。選択済みなので長押し→コピーしてください');
+}
+</script>
+</body>
+</html>
